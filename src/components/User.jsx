@@ -1,25 +1,9 @@
-import { useState, Fragment, useEffect } from "react";
-import api from "../apiConfig";
+import { Fragment } from "react";
+import { useFetch } from "../hooks/useFetch";
+
 
 const User = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const fetchUsers = async () => {
-    setLoading(true);
-    try {
-      const response = await api.get("/users");
-      setUsers(response.data.users);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+ const { data:users, loading, errors } =useFetch("/users")
 
   return (
     <div>
@@ -29,7 +13,7 @@ const User = () => {
       {loading ? (
         <h1>Loading....</h1>
       ) : (
-        users.map((user) => (
+        users.users.map((user) => (
           <Fragment key={user.id}>
             <div>
               <h1>{user.firstName}</h1>
@@ -40,7 +24,7 @@ const User = () => {
           </Fragment>
         ))
       )}
-      {error && <h1>{error.message}</h1>}
+      {errors && <h1>{errors.message}</h1>}
     </div>
   );
 };
