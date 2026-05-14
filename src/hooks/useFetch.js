@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import api from "../apiConfig";
 
 
-export const useFetch = ( endpoint )=>{
+export const useFetch = ( endpoint, options = {} )=>{
     const [data, setData ] = useState([]);
-    const [loading. setLoading ] = useState(true);
+    const [loading, setLoading ] = useState(true);
     const [errors, setErrors ] = useState(true);
 
     useEffect(()=> {

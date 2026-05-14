@@ -1,28 +1,9 @@
-import { useState, Fragment, useEffect } from "react";
-import api from "../apiConfig";
+import { Fragment } from "react";
+import { useFetch } from "../hooks/useFetch";
 
 const Todo = () => {
-  const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const fetchTodos = async () => {
-    setLoading(true);
-    try{
-        const response = await api.get("/todos");
-    setTodos(response.data.todos);
-    }
-    catch (error){
-        setError(error);
-    }
-    finally{
-        setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
+  const {data:todos, loading, errors} = useFetch("/todos");
+   
   return (
     <div>
       <h1 className="bg-blue-800 font-extrabold text-3xl text-center text-cyan-300">
@@ -31,14 +12,14 @@ const Todo = () => {
       {loading ? (
         <h1>Loading....</h1>
       ) : (
-        todos.map((todo) => (
+        todos.todos.map((todo) => (
           <Fragment key={todo.id}>
             <h2>{todo.todo}</h2>
             <hr />
           </Fragment>
         ))
       )}
-      {error && <h1>{error.message}</h1>}
+      {errors && <h1>{errors.message}</h1>}
     </div>
   );
 };
