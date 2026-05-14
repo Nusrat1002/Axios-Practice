@@ -1,5 +1,5 @@
 import { useState, Fragment, useEffect } from "react";
-import axios from "axios";
+import api from "../apiConfig";
 
 const Todo = () => {
   const [todos, setTodos] = useState([]);
@@ -8,7 +8,7 @@ const Todo = () => {
   const fetchTodos = async () => {
     setLoading(true);
     try{
-        const response = await axios.get("https://dummyjson.com/todos");
+        const response = await api.get("/todos");
     setTodos(response.data.todos);
     }
     catch (error){

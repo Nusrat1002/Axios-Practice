@@ -1,5 +1,5 @@
 import { useState, Fragment, useEffect } from "react";
-import axios from "axios";
+import api from "../apiConfig";
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -8,7 +8,7 @@ const User = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://dummyjson.com/users");
+      const response = await api.get("/users");
       setUsers(response.data.users);
     } catch (error) {
       setError(error);
